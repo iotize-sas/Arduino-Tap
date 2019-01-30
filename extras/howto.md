@@ -2,7 +2,7 @@
 
 This application note shows how to add wireless connectivity to an Arduino application by plugging a TapNLink. 
 
-Only a few minutes are required to iotize a Cortex-M based emmbedded application. But with most of Arduino boards, Integration is made easy thanks to the library concept. 
+Only a few minutes are required to iotize a Cortex-M based embedded application. But with most of Arduino boards, Integration is made easy thanks to the library concept. 
 
 ## Supported Arduino hardware
 
@@ -53,8 +53,6 @@ To summarize, two wires for the power supply (GND et Vcc3.3) provided by the Ard
 WARNING: With a 5V board,  connect the 3.3V pin. **DO NOT CONNECT 5V**, it will destroy your Tap!
 
 ## Let's connect the boards
-
-
 
 ### The signals at the TapNLink side
 
@@ -109,10 +107,18 @@ In our example, CLK is connected to pin 3 for the Arduino UNO board and IO (data
 ### Connecting TapNLink to the the Arduino DUE (or any Cortex-M board)
 
 #### Arduino DUE with SWD 
-When the SWD protocol is used, the library is useless and you just need to connect TapNLink to the debug port (SWD / JTAG). 
+When the SWD protocol is used, the library is useless and you just need to connect TapNLink to the debug port (SWD / JTAG).
+If you own a TapNLink primer, you have to add a 2x5 male header(pitch 1.27mm)  on your TapNLink:
+
+<img src="res/add_swd_connector.png" alt="Missing ARM connector." style="max-width: 300px; border: 1px solid gray;">
+
+You can then link the two board with a simple ribbon (10 wires, 0.635mm pitch):
+
+<img src="res/swd_ribbon_cable.png" alt="Linking the boards." style="max-width: 300px; border: 1px solid gray;">
+
 
 #### Aduino DUE with S3P
-Of course, it is also possible to use the Due board with S3P. In this case, we can select any pair of digital signals available on the connectors. In the example, we selected pin 16 for CLK and 17 for data (IO). 
+Of course, it is also possible to use the Due board with S3P. In this case, we can select any pair of digital signals available on the connectors. In the example, we selected pin 16 for CLK and 17 for data (IO). Don't forget to connect Vcc (3.3V) and Gnd. 
 
 ### Other Cortex-M boards with SWD
 The debug port is not always available on all boards. Often the boards provided by the silicon vendors (Nucleo from ST, ...) are equipped with an embedded debugger connected to the debug port. In such a case, we encounter several situations:
@@ -123,43 +129,55 @@ The debug port is not always available on all boards. Often the boards provided 
 Thus, many cases, and you will have to analyse the schematic (and sometimes to try) to check whether an embedded debugger is or is not a problem. 
 
 ### Other processors
-It is not difficult to adapt the library (Tap.cc file) to any processor. The only change to be considered is the clearing of the interrupt flag
+It is not difficult to adapt the library (Tap.cpp file) to any processor. The only change to be considered is the clearing of the interrupt flag (see Tap::ConfigureIOs() in tap.cpp).
+This file has just to be edited to adapt this part. 
+Note that clearing the IRQ flags is mandatory: on most processors, toggling the clock signal that has been used to trigger the interrupt keeps the irq flag active during the interrupt processing. At the return from the handler, the flag would be still active and we would launch for ever the interrupt handler. 
 
 ## Relocating the output directory 
-To configure from IoTize Studio, we need the elf file containing thelist of the global symbol (output of the linker). By default, the Arduino IDE generates this file into a temporary directory but we can specify a best location, easily accessible. 
-You need to open the  ‘Preferences.txt’ file. You will find it by clicking on: File | Preferences | More preferences can be edited... 
-When the 'preferences.txt' file is opened, close the Arduino IDE (because it will overwrite our preferences.txt file and we would loose our changes). 
-A a line:   ‘build.path=…’ and specify after '=' a 'output' subfolder of your sketchbook directory. For example, in my case, my sketchbook directory is E:\Documents\Arduino:  
+To configure from IoTize Studio, we need the elf file containing thevlist of the global symbols (output of the linker). By default, the Arduino IDE generates this file into a temporary directory but we can specify a more suitable location, easily accessible. 
+
+You need to open the  ‘Preferences.txt’ file. You will find it by clicking on: 
+        File | Preferences | More preferences can be edited... 
+
+When the 'preferences.txt' file is opened, close the Arduino IDE because it would  overwrite our new preferences.txt file and we would loose our changes. 
+Add the line:   
+        ‘build.path=…’ 
+and specify after '=' an 'output' subfolder of your sketchbook directory. For example, in my case, my sketchbook directory is E:\Documents\Arduino:  
 
  <img src="res/preferences.png" alt="Specify output directory for Studio" style="max-width: 300px; border: 1px solid gray;">
 
-Save this file. You can now reopen Arduino IDE and the generated will be saved into the specified directory. 
+Save this file. You can now reopen Arduino IDE and the new generated will be saved into this 'output' subfolder. 
 
-### Modify your existing project
-Once the TAP library installed, you have  to include it in your project (e.g. to add #include "tap.h" at the top of your .ino file.
-You need them to initialise the tap handler. This is done by addng the line:
-        myTap.Init(pin_clk, pin_io); 
-where pin_clk is the pin reference for the interrupt pin you selected and pin_io is the pin reference for the data. That's it!
+## Start with IoTize Studio
 
-### Forder structure
+### Install IoTize Studio
 
-## Configure you Tap
-
-### Running IoTize Studio
+### Create a new project (.iotz)
 
 #### Main settings
 
 #### Adding variables
 
-#### Loading the configuration
+## Modify your existing Arduino file (.ino)
+Once the TAP library installed, you have to include it in your project (e.g. to add #include "tap.h" at the top of your .ino file.
+You need them to initialise the tap handler. This is done by addng the line:
+        myTap.Init(pin_clk, pin_io); 
+where pin_clk is the pin reference for the interrupt pin you selected and pin_io is the pin reference for the data. That's it!
 
-#### project <=> configuration synchronization
+### Compile your new Arduino filr
+
+### Synchronize "Arduino project <=> configuration"
+
+## Configure you Tap
+
+#### Loading the configuration
 
 #### Testing from IoTize Studio
 
 #### Apps publishing
 
 #### Test vith your mobile!
+
 ## To go further
 
 
