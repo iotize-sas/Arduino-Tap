@@ -120,12 +120,13 @@ Of course, it is also possible to use the Due board with S3P. In this case, we c
 Note that the signals of the 5 pin connector (single row) are also on the 10 pin ARM connector (double row). You can use either on or the other (the 5-pin is often easier to connect for Arduino boards).  
 
 ### Other Cortex-M boards with SWD
-The debug port is not always available on all boards. Often the boards provided by the silicon vendors (Nucleo from ST, ...) are equipped with an embedded debugger connected to the debug port. In such a case, we encounter several situations:
-  - either the debug is port is not available (no connector)... SWD must be discarded and S3P selected.
+The debug port is not always available on all boards. Often the boards provided by the silicon vendors (Nucleo from ST, ...) are equipped with an embedded debugger connected to the debug port. In such a case, we could encounter several situations:
+  - either the debug is port is not available (no connector)... SWD must be discarded and S3P used.
   - or the debug port exists, but the debugger cannot be disabled. Again, you have to go with S3P.
   - sometinmes, a connector exists and the debugger stays in Hi-Z as long as its USB port is left unconnected. 
   - or jumpers allow to disconnect the embedded debugger... 
 Thus, many cases, and you will have to analyse the schematic (and sometimes to try) to check whether an embedded debugger is or is not a problem. 
+On the DUE board, the debug board is just connected to the named "jtag connector". We can use it without restriction. 
 
 ### Other processors
 It is not difficult to adapt the library (Tap.cpp file) to any processor. The only change to be considered is the clearing of the interrupt flag (see Tap::ConfigureIOs() in tap.cpp).
