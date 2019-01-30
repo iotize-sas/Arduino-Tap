@@ -148,16 +148,20 @@ and specify after '=' an 'output' subfolder of your sketchbook directory. For ex
 Save this file. You can now reopen Arduino IDE and the new generated will be saved into this 'output' subfolder. 
 
 ## Start with IoTize Studio
-IoTize is a free software available on the iotize.com web site. 
+IoTize is a free software available on the iotize.com web site:
+
         http://docs.iotize.com/Downloads/
 
 Please refer to the documentation available on the same website: 
+
         http://docs.iotize.com/UserManuals/IotizeStudio/
 
 ### Create a new project (.iotz)
-We assume when using the tap library that you create your IoTize Studio projects into 
+We assume when using the tap library that you create your IoTize Studio projects into:
+
         {sketchbook_folder}/TapNLink/
-Any other location should work but, when working with S3P, the tap.cpp finds the S3P_conf.h file using a relative reference. In case you place your iotz files anywhere else, you will have to modify this path.  
+
+Any other location should work but, when selecting S3P, the tap.cpp finds the S3P_conf.h file using a relative reference. In case you place your iotz files anywhere else, you will have to modify this path.  
 
 The tree should look like: 
         {sketchbook_folder}/
