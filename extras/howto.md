@@ -17,13 +17,13 @@ Due	Cortex-M (ATSAM3X8E)	3V
 Mega	AVR (ATmega2560)	5V
 
 
-| Model | Processor | IOs Voltage | 
+| Model | Processor | IOs Voltage |     
 |:-----:|:---------:|:------------|
 | Uno	| AVR (ATmega328)	| 5V |
 | Due	| Cortex-M (ATSAM3X8E)	| 3V |
 | Mega	| AVR (ATmega2560)	| 5V |
 
-### Core dependancy
+### Core dependency
 
 We had to adapt slightly the interface: 
  - For the  Cortex-M based boards, we can use either the S3P protocol or the debug protocol (SWD). SWD is managed by the hardware of the core and is very simple to be use. It offers: 
@@ -37,51 +37,128 @@ S3P provides a better  securit, but security is not always the most important cr
  ### I/O voltage issue
 
  For processors with 5V digital pins, we have to adapt the voltage levels. Several solutions are possible, but simply insert a resistor for each digital signal. 
- The figure below shows the connection between Arduino-Uno and TapNLink:
+ 
+Whatever the protocol (SWD/S3P), we need 4 wires to make the Arduino board communicating with TapNLink:
+
+|  Type   |  Name    | Description |     
+|:-------:|:--------:|:------------|
+| Power	  |  Gnd     |   Ground          |
+| Power	  |  Vcc3_3  |   MUST BE 3V or 3.3V |
+| Digital |  CLK     | Must be an interrupt (or could be SWD-CLK for Cortex-M devices) |
+| Digital |  IO      |   Clk and IO must be adapted (resistor) for 5V rocessors  |
+	
+
+To summarize, two wires for the power supply (GND et Vcc3.3) provided by the Arduino to TapNLink and two digital signals: clock and data. Optionaly, we can add a reset signal if we wish to be able to reset the Arduino board from the TapNLink module. 
+
+WARNING: With a 5V board,  connect the 3.3V pin. **DO NOT CONNECT 5V**, it will destroy your Tap!
+
+## Let's connect the boards
+
+
+
+### The signals at the TapNLink side
+
+For both SWD and S3P, the 4 signals are available on two connectors:
+ - a small 10-contact, 1.27mm (ARM compatible) dual row connector,
+ - or a bigger 5-contact, 2.54mm single row connector
+If you purchase a Primer, connect the provided 5-wires cable as follows:     
+
+<img src="res/tapconnect.png" alt="Tap connectors" style="max-width: 300px; border: 1px solid gray;">
+
+The pinout is as follows: 
+|  Type   |  Signal | 5-pin header   | wire   | 10-pin header (ARM) |      
+|:-------:|:-------:|:--------------:|:------:|:-------------------:|
+| Power	  |  Vcc3.3 | 1              | Red    | 1                   |
+| Power	  |  Gnd    | 2              | Black  | 3,5,9               |
+| Digital |  CLK    | 4              | Pink   | 4                   |
+| Digital |  IO     | 3              | Blue   | 2                   |
+| Digital |  RST    | 5              | Purple | 10                  |
+
+
+
+### Connecting a 5V arduino Uno or MEGA
+
+Again, take care not connecting the Tap to the 5V power. But we also need to adapt the voltage of the digital inputs: applying directly a 5V 'push-pull' output to the TapNLInk inputs could damage the processor of the TapNLink. The simplest solution consists in inserting a 1 k-ohm (2200 ohm) between the TapNLink and the Arduino for both the Clock and the IO signals. Such a resistor  will limit the current without degrading too much the signals.   
+
+The schematic below shows the connection between Arduino-Uno and TapNLink:
 
  <img src="res/Arduino-to-Tap.png" alt="Wire connection to TapNLink" style="max-width: 300px; border: 1px solid gray;">
 
-Whatever the protocol (SWD/S3P), we need 4 wires to make the Arduino board communicating with TapNLink:
- 
+#### Clock signal
+It must be connected to an interrupt input of the processor. Not all pins are eligible and the following table summarize which pins are usable for interrupts:
 
-Que l’on soit en SWD ou en S3P, et quelle que soit la carte Arduino, 4 fils sont nécessaires pour porter les signaux suivants :
-Type	Name	Description
-Power	Vcc	MUST BE 3V or 3.3V
-	Gnd	Ground
-Digital	Clock	Must be an interrupt (or could be SWD-CLK for Cortex-M devices)
-	IO	
+| Board | Digital Pins Usable For Interrupts | Status |
+|:-------:|:-------------------:|:---------:|
+| Uno, Nano, Mini, other 328-based | 2,3 | Tested |
+| Uno WiFi Rev.2 | all digital pins | Not tested |
+| Mega, Mega2560, MegaADK | 2, 3, 18, 19, 20, 21 | Tested |
+| Micro, Leonardo, other 32u4-based | 0, 1, 2, 3, 7 | Not tested |
+| Zero | all digital pins, except 4 | not tested |
+| MKR Family boards | 0, 1, 4, 5, 6, 7, 8, 9, A1, A2 | Not tested |
+| Due | all digital pins | Tested |
+| 101 | all digital pins | Not tested |
 
-Donc deux pour fils pour l’alimentation (GND et Vcc3.3) et deux signaux logiques : une clock et un signal de données auxquels on peut optionnellement ajouter le signal de reset si l’on souhaite que TapNLink soit capable de resetter à la carte applicative. 
-ATTENTION :  Avec une carte 5V, c’est bien l’alimentation 3.3V qu’il convient d’apporter le module TapNLink. DO NOT CONNECT 5V, it will destroy your Tap!
-Connexion avec une carte 5V (UNO, MEGA, ..)
-A nouveau, bien choisir son alimentation : il faut connecter la source 3.3V de la carte et non l’alimentation générale 5V. Mais il convient aussi d’adapter les signaux logiques car les pattes du TapNLink ne supportent pas non plus une tension de 5V. Pour cela, le plus simple consiste à intercaler une résistance 1ko (mille ohm) en série entre les deux cartes. La chute de tension sera suffisante pour limiter le courant et ne pas endommager TapNLink lorsqu’un signal haut est sorti depuis la carte Arduino. Elle sera aussi suffisamment faible pour ne pas ralentir les fronts de montée, et assurer des niveaux de tension convenable de part et d’autre. 
-Le schéma suivant résume ces branchements : 
- 
-Dans le cas particulier de l’Arduino Uno, le signal IO peut être connecté sur n’importe quelle entrée sortie digitale alors que le signal CLK doit être connecté sur une patte d’interruption externe. Deux pattes seulement sont possibles : 2 ou 3. 
-Dans l’exemple fourni avec la bibliothèque, CLK est relié à la patte 3 alors que IO est relié à la patte 5. 
-Connexion avec une carte à base de Cortex-M (Due)
-Si le protocole SWD est utilisé, le plus simple est de le connecter directement au port de debug du processeur : 
-Configuration de l’IDE-Arduino
-Fichier de sortie (ELF)
-Pour IoTize Studio, nous avons besoin pour chaque projet du fichier exécutable (associé au suffixe ‘.ELF’) généré par l’IDE Arduino. Or l’IDE considère ce fichier comme un fichier de travail qu’il place par défaut dans un répertoire temporaire, peu accessible. On peut cependant modifier cet emplacement temporaire et le remplacer par un endroit plus accessible.  
-Pour cela, il faut ouvrir le fichier ‘Preferences.txt’ Redirection par ‘préférences’ : 
-Menu Fichier | Preferences | ‘More preferences can be edited…’
-Avant d’éditer ce fichier, il faut fermer Arduino IDE (qui l’écrase à chaque fermeture) car l’on perdrait sinon les modifications. 
-Ajouter une ligne ‘build.path=…’ en spécifiant après ‘=’ {sketchbook_directory\output}. Dans mon cas, mon répertoire ‘sketchbook’ est E:\Documents\Arduino :  
- 
-Sauver ce fichier, et lecoms fichiers générés par le compilateur GCC de l’IDE Arduino seront désormais placés dans ce répertoire, non loin de nos projets (sketch) Arduino. 
-Installation de la bibliothèque TAP
 
-Modification d’un projet existant
-Structure des répertoires
-Configuration du module
-Installation d’IoTize Studio
-Les choix de configuration
-Sélection  et affichage de variables
-Test
-Monitoring local
-Publication de l’Apps mobile
-Depuis un mobile…
-Pour aller plus loin…
+Thus, if we start with Arduino Uno, only pins 2 and 3 can be used for CLK. 
+IO signal can be connected to any digital I/O. 
+
+In our example, CLK is connected to pin 3 for the Arduino UNO board and IO (data) is connected to pin 5. This can be modified directly when calling the Init() function:
+        myTap.Init(3,5); // clk = 3 and data = 5
+
+### Connecting TapNLink to the the Arduino DUE (or any Cortex-M board)
+
+#### Arduino DUE with SWD 
+When the SWD protocol is used, the library is useless and you just need to connect TapNLink to the debug port (SWD / JTAG). 
+
+#### Aduino DUE with S3P
+Of course, it is also possible to use the Due board with S3P. In this case, we can select any pair of digital signals available on the connectors. In the example, we selected pin 16 for CLK and 17 for data (IO). 
+
+### Other Cortex-M boards with SWD
+The debug port is not always available on all boards. Often the boards provided by the silicon vendors (Nucleo from ST, ...) are equipped with an embedded debugger connected to the debug port. In such a case, we encounter several situations:
+  - either the debug is port is not available (no connector)... SWD must be discarded and S3P selected.
+  - or the debug port exists, but the debugger cannot be disabled. Again, you have to go with S3P.
+  - sometinmes, a connector exists and the debugger stays in Hi-Z as long as its USB port is left unconnected. 
+  - or jumpers allow to disconnect the embedded debugger... 
+Thus, many cases, and you will have to analyse the schematic (and sometimes to try) to check whether an embedded debugger is or is not a problem. 
+
+### Other processors
+It is not difficult to adapt the library (Tap.cc file) to any processor. The only change to be considered is the clearing of the interrupt flag
+
+## Relocating the output directory 
+To configure from IoTize Studio, we need the elf file containing thelist of the global symbol (output of the linker). By default, the Arduino IDE generates this file into a temporary directory but we can specify a best location, easily accessible. 
+You need to open the  ‘Preferences.txt’ file. You will find it by clicking on: File | Preferences | More preferences can be edited... 
+When the 'preferences.txt' file is opened, close the Arduino IDE (because it will overwrite our preferences.txt file and we would loose our changes). 
+A a line:   ‘build.path=…’ and specify after '=' a 'output' subfolder of your sketchbook directory. For example, in my case, my sketchbook directory is E:\Documents\Arduino:  
+
+ <img src="res/preferences.png" alt="Specify output directory for Studio" style="max-width: 300px; border: 1px solid gray;">
+
+Save this file. You can now reopen Arduino IDE and the generated will be saved into the specified directory. 
+
+### Modify your existing project
+Once the TAP library installed, you have  to include it in your project (e.g. to add #include "tap.h" at the top of your .ino file.
+You need them to initialise the tap handler. This is done by addng the line:
+        myTap.Init(pin_clk, pin_io); 
+where pin_clk is the pin reference for the interrupt pin you selected and pin_io is the pin reference for the data. That's it!
+
+### Forder structure
+
+## Configure you Tap
+
+### Running IoTize Studio
+
+#### Main settings
+
+#### Adding variables
+
+#### Loading the configuration
+
+#### project <=> configuration synchronization
+
+#### Testing from IoTize Studio
+
+#### Apps publishing
+
+#### Test vith your mobile!
+## To go further
 
 
