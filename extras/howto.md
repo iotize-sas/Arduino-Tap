@@ -44,9 +44,11 @@ Whatever the protocol (SWD/S3P), we need 4 wires to make the Arduino board commu
 | Digital |  IO      |   Clk and IO must be adapted (resistor) for 5V rocessors  |
 	
 
-To summarize, two wires for the power supply (GND et Vcc3.3) provided by the Arduino to TapNLink and two digital signals: clock and data. Optionaly, we can add a reset signal if we wish to be able to reset the Arduino board from the TapNLink module. 
+To summarize, two wires for the power supply (GND et Vcc3.3) provided by the Arduino to TapNLink and two digital signals: clock and data. 
 
-WARNING: With a 5V board,  connect the 3.3V pin. **DO NOT CONNECT 5V**, it will destroy your Tap!
+Optionally, we can add the reset signal if we wish to be able to reset the Arduino board from the TapNLink module. 
+
+WARNING: With a 5V board, connect the 3.3V pin. **DO NOT CONNECT 5V**, it will destroy your Tap!
 
 ## Let's connect the boards
 
