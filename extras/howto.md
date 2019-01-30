@@ -17,7 +17,7 @@ We have tested here on 3 popular boards:
 |:-----:|:---------:|:------------|
 | Uno	| AVR (ATmega328)	| 5V |
 | Due	| Cortex-M (ATSAM3X8E)	| 3V |
-| Mega	| AVR (ATmega2560)	| 5V |
+| Mega2560	| AVR (ATmega2560)	| 5V |
 
 ### Core dependency
 
@@ -73,7 +73,7 @@ The pinout is as follows:
 
 
 
-### Connecting a 5V arduino Uno or MEGA
+### Connecting a 5V arduino Uno or MEGA2560
 
 Again, take care not connecting the Tap to the 5V power. But we also need to adapt the voltage of the digital inputs: applying directly a 5V 'push-pull' output to the TapNLInk inputs could damage the processor of the TapNLink. The simplest solution consists in inserting a 1 k-ohm (2200 ohm) between the TapNLink and the Arduino for both the Clock and the IO signals. Such a resistor  will limit the current without degrading too much the signals.   
 
