@@ -11,10 +11,6 @@ Practically, TapNLink supports any microcontroller and any architecture.  But de
 The main criteria are the voltage of the I/O pins, and the core. 
 We have tested here on 3 popular boards: 
 
-Model	Processor	IOs  Voltage
-Uno	AVR (ATmega328)	5V
-Due	Cortex-M (ATSAM3X8E)	3V
-Mega	AVR (ATmega2560)	5V
 
 
 | Model | Processor | IOs Voltage |     
@@ -30,13 +26,13 @@ We had to adapt slightly the interface:
         - the ability to start immediatly, without modifying the firmware,
         - various advanced features such as the update of the target (Arduino) firmware from a mobile.
 
-S3P provides a better  securit, but security is not always the most important criteria for a Proof of Concept. Therefore, SWD would be prefer when available (e.g. for the Cortex-M based processors). 
+S3P provides a better security level, but security is not always the most important criteria for a Proof of Concept. Therefore, SWD would be preferred when available (e.g. for the Cortex-M based processors). 
 
- - for the other processors  (and potentially for the Cortex-M base as well), the TAP library must be added. This document describes how to use this library. 
+ - for the other processors  (and potentially for some Cortex-M based as well), the TAP library must be added. This document describes how to use this library. 
  
- ### I/O voltage issue
+### I/O voltage issue
 
- For processors with 5V digital pins, we have to adapt the voltage levels. Several solutions are possible, but simply insert a resistor for each digital signal. 
+For processors with 5V digital pins, we have to adapt the voltage levels. Several solutions are possible, but simply insert a resistor for each digital signal. 
  
 Whatever the protocol (SWD/S3P), we need 4 wires to make the Arduino board communicating with TapNLink:
 
