@@ -66,6 +66,7 @@ If you purchase a Primer, connect the provided 5-wires cable as follows:
 <img src="res/tapconnect.png" alt="Tap connectors" style="max-width: 300px; border: 1px solid gray;">
 
 The pinout is as follows: 
+
 |  Type   |  Signal | 5-pin header   | wire   | 10-pin header (ARM) |      
 |:-------:|:-------:|:--------------:|:------:|:-------------------:|
 | Power	  |  Vcc3.3 | 1              | Red    | 1                   |
@@ -85,7 +86,7 @@ The schematic below shows the connection between Arduino-Uno and TapNLink:
  <img src="res/Arduino-to-Tap.png" alt="Wire connection to TapNLink" style="max-width: 300px; border: 1px solid gray;">
 
 #### Clock signal
-It must be connected to an interrupt input of the processor. Not all pins are eligible and the following table summarize which pins are usable for interrupts:
+It must be connected to an interrupt input of the processor. Not all pins are eligible and the following table summarizes which pins are usable for interrupts:
 
 | Board | Digital Pins Usable For Interrupts | Status |
 |:-------:|:-------------------:|:---------:|
