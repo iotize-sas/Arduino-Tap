@@ -143,7 +143,7 @@ Note that clearing the IRQ flags is mandatory: on most processors, toggling the 
 
 ## Relocating the output directory 
 
-IoTize Studio configuration needs the elf file of global symbols (output from linker). By default, the Arduino IDE generates this file into a temporary directory but a more accessible location can be specified. 
+IoTize Studio configuration needs the elf file to read the list of the global symbols (output from linker). By default, the Arduino IDE generates this file into a temporary directory but a more accessible location can be specified. 
 
 1. Open the  ‘Preferences.txt’ file (find it by clicking on: 
         File | Preferences | More preferences can be edited...) 
@@ -156,7 +156,7 @@ and specify after '=' an 'output' subfolder of your sketchbook directory. For ex
  <img src="res/preferences.png" alt="Specify output directory for Studio" style="max-width: 300px; border: 1px solid gray;">
 
 4. Save this file. 
-5. Reopen Arduino IDE and the new preferences will be saved into this 'output' subfolder. 
+5. Reopen Arduino IDE and the next generated elf files will be saved into this 'output' subfolder. 
 
 ## Start with IoTize Studio
 IoTize Studio is a free software available on the iotize.com web site:
@@ -214,7 +214,16 @@ The tree should look like:
 
 #### Main settings
 
+In IoTize Studio, create a new project in the {sketchbook_folder}\TapNLink directory and specify in the wizzard dialog bog the elf file of your Arduino project (previously compiled). Then change in the IOTZ Explorer pane:
+        - 'IoTized Application | Target | Target protocol' => S3P
+        - 'IoTized Application | Target | S3P configuration ' => S3P mode = Indexed and Delay = 1ms
+
+You will have to configure IoTized Application | Studio parameters. For this part, please refer to the IoTize Documentation Center ( [Getting Started with TapNLink](http://docs.iotize.com/GettingStarted/TapNLink/) and [IoTize Studio manual](http://docs.iotize.com/UserManuals/IotizeStudio/)).
+
+        
+
 #### Adding variables
+The list of the available symbols (read from your elf file) is available in the 'Resource View' pane. You can drag and drop them to the default bundle and they will appear on the generated web page.  
 
 ## Modify your existing Arduino file (.ino)
 
@@ -244,16 +253,9 @@ To break this loop:
   - SWD manipulates absolute addresses. Every time you change (and reprogram) your firmware, you risk having a different mapping of the selected variables. This means that if an address has been modified, you must regenerate the configuration in IoTize Studio and then reconfigure your Tap.
   - S3P manipulates indexes that are quite stable. This means that as long as you don't add a new variable accessible by TapNLink, you can keep the same Tap configuration.  
 
-## Configure you Tap
+## Configure your Tap
 
-#### Loading the configuration
+Again, refer to the IoTize documentation center to configure your tap. Once configured, you can either test from IoTize Studio, or "tap and view" your new app from your mobile.
 
-#### Testing from IoTize Studio
-
-#### Apps publishing
-
-#### Test vith your mobile!
-
-## To go further
 
 
