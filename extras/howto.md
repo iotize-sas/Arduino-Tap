@@ -143,7 +143,7 @@ Note that clearing the IRQ flags is mandatory: on most processors, toggling the 
 
 ## Relocating the output directory 
 
-IoTize Studio configuration needs the elf file to read the list of the global symbols (output from linker). By default, the Arduino IDE generates this file into a temporary directory but a more accessible location can be specified. 
+IoTize Studio configuration needs the elf file to read the list of the global symbols (output from linker). By default, the Arduino IDE generates this file into a temporary directory but a more accessible location can be specified. You need to follow the exact sequence:  
 
 1. Open the  ‘Preferences.txt’ file (find it by clicking on: 
         File | Preferences | More preferences can be edited...) 
@@ -246,7 +246,7 @@ to make S3P_conf.h accessible.
 
 When saving the configuration file, IoTize Studio generates a S3P_conf.h file that is required for compiling Tap.cpp (from the library). Indeed, this file is needed to generate the final ELF file. But to create the iotz configuration, and to generate this file, requires the ELF file...
 To break this loop:
- - you can start with your initial ELF file (gnerated before iotizing your project). Once an S3P_conf.h file is generated, it is used when compiling the Arduino file. 
+ - you can start with your initial ELF file (generated before iotizing your project). Once an S3P_conf.h file is generated, it is used when compiling the Arduino file. 
  - when you think your configuration is done, save your project, then compile the project from the Arduino file, then repeat this sequence once more.
 
  Note that there is a difference between S3P and SWD addressing:
@@ -256,6 +256,34 @@ To break this loop:
 ## Configure your Tap
 
 Again, refer to the IoTize documentation center to configure your tap. Once configured, you can either test from IoTize Studio, or "tap and view" your new app from your mobile.
+
+## Frequent issues
+
+### The output is not generated in the right directory
+
+You need to follow the sequence described above. If you don't close Arduino IDE  ** **BEFORE** ** editing the preferences.txt file, your changes will be lost. 
+
+### Some errors occur when reading some variables. 
+
+To synchronize the ELF file with the S3P_conf.h file, you need to repeat **TWICE** the sequence : 
+
+ - compile,
+ - save the configuration file from IoTize Studio
+
+then you can upload the firmware onto the Arduino board and test the result. 
+Note that you need the ELF file to make IoTize Studio to generate the S3P_conf.h... needed to generate the ELF file.  If you have entered this loop, you can break the loop by commenting out the call to "myTap.Init" in order to generate the ELF file then to do the synchronization process.  
+
+### S3P communication does not work at all...
+
+The possible known issues: 
+ - Check the wires... 
+ - Check that the version of your TapNLink is 1.45 or greater... 
+ - Check that you called 'myTap.Init(clk, data) with the right pin numbers,
+ - Check that the pin number used for clk is an interrupt pin,
+ - Check that this interrupt is properly managed by Arduino and by tap.cpp (see in the library). 
+
+  
+
 
 
 
