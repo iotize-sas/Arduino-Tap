@@ -1,4 +1,9 @@
 -- Add changes to unreleased tag until we make a release.
 
-29 Jan 2019
+29 Jan 2019. Version 1.0.0
 - Initial commit to GitHub.
+
+07 Feb 2019. Version 1.0.3
+- A new constructor has been added to create/initialize the Tap within a one-line declaration.  
+- All interrupts are now managed for MEGA.
+- Documentation has been adapted. 
