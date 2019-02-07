@@ -3,15 +3,18 @@
 unsigned short var1[3] = { 0x8899, 0xAABB, 0xccdd }; 
 unsigned short counter = 0;
 
+
+#if (defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_MEGA2560)) 
+Tap  myTap(3, 5);   //For uno, CLK must be either 2 or 3
+#elif defined(ARDUINO_SAM_DUE) 
+Tap  myTap(16, 17); //Warning: For DUE, not all pins are managed in the Tap class / Arduino
+#endif
+
+
 void setup() {
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
   Serial.println("start!");
-#if (defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_MEGA2560)) 
-  myTap.Init(3, 5);  //Start S3P with CLK 
-#elif defined(ARDUINO_SAM_DUE) 
-  myTap.Init(16, 17);  //Start S3P with CLK
-#endif
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }

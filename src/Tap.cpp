@@ -44,12 +44,6 @@ u32 S3P_CSW_reg = S3P_INVALID_CSW_REG;
 void S3P_IrqHandler( void );
 
 
-#define DEBUG_S3P 1
-//This signal could be usefull to analyse the duration of the interrupt handling
-#if DEBUG_S3P
-byte debugPin = 7 ;
-#endif
-
 /*******************************************************************************
 * Function Name  : Init
 * Description    : This routine has to be called as soon as possible by the
@@ -74,9 +68,6 @@ void Tap::Init( int CLK, int IO)
     ArraySize = S3P_REGN;
 
     // hw and irq initialisation (HW specific)
-#if DEBUG_S3P
-    digitalWrite(debugPin, LOW);
-#endif
     ConfigureIOs();   
 }
 
@@ -88,15 +79,13 @@ void Tap::Init( int CLK, int IO)
 *                  and an interrupt will be setup in order to establish a
 *                  communication with the debugger.
 *                  This function is specific to the target MCU.
+*                  It is declared as virtual anc could be overwritten
 * Input          : None.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
 void Tap::ConfigureIOs( void )
 {
-#if DEBUG_S3P
-   pinMode(debugPin, OUTPUT);
-#endif 
    pinMode(Pin_CK, INPUT);
    pinMode(Pin_IO, INPUT_PULLUP);
 
@@ -153,9 +142,6 @@ void Tap::PrepareCom( void )
 void Tap::EndOfCom( void )
 {
     ConfigureIOs();   
-#if DEBUG_S3P
-    digitalWrite(debugPin, LOW);   
-#endif
 }
 
 
@@ -209,10 +195,6 @@ void S3P_IrqHandler( void )
 *******************************************************************************/
 void Tap::IrqHandler( void )
 {
-#if DEBUG_S3P
-    digitalWrite(debugPin, HIGH);   
-#endif
-
     S3P_err ret = 0;
 
     //Prepare com (Pull the SWDCLK signal low.)

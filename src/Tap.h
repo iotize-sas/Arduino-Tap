@@ -123,15 +123,23 @@ typedef u16 S3P_Indreg_addr;
 
 class Tap {
   public:
+
     Tap( ){
         Command = Cmd2 = Size = Addr = Value = INDEX_reg = 0;
         Last_WrittenReg = Last_ReadReg = Last_AccessReg = 0xff;
         }
+    Tap(int CLK, int IO) : Tap()
+        {
+        Init (CLK, IO);
+        }
+
     void Init ( int CLK, int IO);       /* This function initialises the hw and irq            */
     void IrqHandler( void );   /* Interrupt handler (to be called from the IRQ vector */  
 
+  protected:
+    virtual void ConfigureIOs( void );
+
   private:
- 
     typedef u16 S3P_Indreg_addr;
     int Parity8( u8 inbyte );
     int BitCount8( u8 inbyte );
@@ -145,7 +153,6 @@ class Tap {
     u32  GetValSPI( u8 size );
     void EndOfCom( void );
     void PrepareCom( void );
-    void ConfigureIOs( void );
 
 
 /* User check functions to be customized */
