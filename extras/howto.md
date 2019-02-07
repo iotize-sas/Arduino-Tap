@@ -111,13 +111,21 @@ In our example, CLK is connected to pin 3 for the Arduino UNO board and IO (data
 #### Arduino DUE with SWD 
 Simply connect TapNLink to the debug port (SWD / JTAG). The library is not used.
 
-If you have a TapNLink Primer, you must add a 2x5 male header (pitch 1.27mm)  to your TapNLink:
+If you have a TapNLink Primer, you can use:
+ - either the 2x5 male header (pitch 1.27mm), ARM compatible, to your TapNLink,
+ - or the single row 5 pins header (pitch 2.54mm).
 
 <img src="res/add_swd_connector.png" alt="Missing ARM connector." style="max-width: 300px; border: 1px solid gray;">
 
 You can then link the two boards with a simple ribbon (10 wires, 0.635mm pitch):
 
 <img src="res/swd_ribbon_cable.png" alt="Linking the boards." style="max-width: 300px; border: 1px solid gray;">
+
+or with the 5 flying wires:
+
+<img src="res/arduino_due_5wires.jpg" alt="Linking the boards with the 5 pin header." style="max-width: 300px; border: 1px solid gray;">
+
+ (again, take care to connect Vcc only to 3.3V). 
 
 
 #### Aduino DUE with S3P
@@ -284,7 +292,7 @@ The possible known issues are:
  - with your change: check that you call 'myTap.Init(clk, data) with the right pin numbers,
  - with the pin selection: check that the pin number used for clk is an interrupt pin,
  - with the interrupt handling: check that this interrupt is properly managed by Arduino and by tap.cpp (see in the library). If is is not supported by the current version of tap.cpp, you could easily add the C line required to clear the interrupt flag in Tap::ConfigureIOs().
- 
+
 
   
 
