@@ -99,20 +99,26 @@ void Tap::ConfigureIOs( void )
 #endif 
    pinMode(Pin_CK, INPUT);
    pinMode(Pin_IO, INPUT_PULLUP);
+
+//Clear interrupt flag status
 #if defined(ARDUINO_SAM_DUE)
     volatile u32 isr = *(volatile u32*) &(PIOA->PIO_ISR);
-#elif defined(ARDUINO_AVR_UNO)    //Check {build.board}
+#elif (defined(ARDUINO_AVR_UNO)|| defined(ARDUINO_AVR_MINI)||defined(ARDUINO_AVR_NANO))     //Check {build.board}
     switch ( Pin_CK )
     {
-      case 2: EIFR = 1; break;  //Clear interrupt flag status
+      case 2: EIFR = 1; break; 
       case 3: EIFR = 2; break;
       default: break; //Should not work!!!!
     }
-#elif defined(ARDUINO_AVR_MEGA2560)    //Check {build.board}
+#elif (defined(ARDUINO_AVR_MEGA2560)||defined(ARDUINO_AVR_ADK))    //Check {build.board}
     switch ( Pin_CK )
     {
-      case 2: EIFR = 0x10; break;  //Clear interrupt flag status
-      case 3: EIFR = 0x20; break;
+      case 2: EIFR = 0x10; break;   //Pin2 is PE4==Int4 
+      case 3: EIFR = 0x20; break;   //Pin3 is PE5==Int5
+      case 18: EIFR = 0x08; break;  //Pin18 is PD3==Int3
+      case 19: EIFR = 0x04; break;  //Pin19 is PD2==Int2
+      case 20: EIFR = 0x02; break;  //Pin20 is PD1==Int1
+      case 21: EIFR = 0x01; break;  //Pin21 is PD0==Int0
       default: break; //Should not work!!!!
     }
 #else
