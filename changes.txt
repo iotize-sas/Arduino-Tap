@@ -8,6 +8,6 @@
 - All interrupts are now managed for MEGA.
 - Documentation has been adapted. 
 
-08 Feb 2019. Version 1.1.0
+08 Feb 2019. Version 1.1.1
 - change library name (from Tap to ArdTap)
 - Remove the 'mytap' declaration from tap.cpp. Use a pointer instead. 
