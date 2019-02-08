@@ -175,7 +175,6 @@ class Tap {
     u8 Last_AccessReg;
     int   ArraySize;
 } ;
-extern Tap myTap;               /* The unique class instance */
 extern void S3P_IrqHandler( void );   /* Interrupt handler (to be called from the IRQ vector */
 
 

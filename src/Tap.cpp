@@ -21,13 +21,12 @@
 #include "tap.h"                /*!< general declarations     */
 #include "..\..\..\TapNLink\S3P_conf.h"
 
-class Tap  myTap;
 
 /* Debug and comm registers --------------------------------------------------*/
 //CSW is always present, even if SWD emulation is disabled
 u32 S3P_CSW_reg = S3P_INVALID_CSW_REG;
 
-
+static Tap *thisTap = 0;
 
 //note: size.7=1 means error during first phase of frame, and in this case the error code is in size[6..0]
 #define Size_ERROR      (0x80)
@@ -66,6 +65,7 @@ void Tap::Init( int CLK, int IO)
     Addr = 0;
     Value = 0;
     ArraySize = S3P_REGN;
+    thisTap = this;
 
     // hw and irq initialisation (HW specific)
     ConfigureIOs();   
@@ -182,7 +182,10 @@ int Tap::Parity8( u8 inbyte )
 
 void S3P_IrqHandler( void ) 
 {
-     myTap.IrqHandler();
+    if ( thisTap != 0 )
+    {
+     thisTap->IrqHandler();
+    }
 }
 
 /*******************************************************************************
