@@ -1,5 +1,5 @@
 {
-  "name": "Tap",
+  "name": "ArdTap",
   "keywords": "GUI, mobile",
   "description": "Allow to monitor an Arduino app from a mobile",
   "repository":
