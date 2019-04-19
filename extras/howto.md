@@ -136,8 +136,6 @@ or with the 5 flying wires:
 
 <img src="res/arduino_due_5wires.jpg" alt="Linking the boards with the 5 pin header." style="max-width: 300px; border: 1px solid gray;">
 
- 
-
 
 #### Aduino DUE with S3P
 Connect Vcc (3.3V) and Gnd. 
@@ -152,7 +150,7 @@ The debug port is not always available, but boards provided by silicon vendors (
   - the debug port is not available (no connector). SWD must be discarded and S3P used.
   - the debug port exists, but the debugger cannot be disabled. Again, you have to use S3P.
   - a connector exists but the debugger stays in Hi-Z as long as its USB port is left unconnected. Again, use S3P.
-  - jumpers allow to disconnect the embedded debugger ??Francis??.
+  - jumpers allow to disconnect the embedded debugger.
 
 You will have to analyse the schematic and check whether an embedded debugger is a problem. 
 On the DUE board, the debug board is connected to the JTAG connector and can be used without restriction. See [summary](##arduino%20clock%20signals) for list of useable pins.
