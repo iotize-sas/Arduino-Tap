@@ -23,7 +23,7 @@ There are two submodes with S3P and only the 'indexed' mode has been implemented
 To use this library, you need: 
 
 - TapNLink module: A 'Primer Tap' (evaluation kit) is perfect as long as you don't use TapNLink in production. 
-Tested with TapNLink NFC + BLE, HW version 1.10 and FW version 1.43.
+Tested with TapNLink NFC + BLE, HW version 1.10 and FW version 1.43. This kit is [available at Digikey](https://www.digikey.com/product-detail/en/iotize/TNL-PRIMER-NB/2087-TNL-PRIMER-NB-ND/9923057). 
 
 - Arduino board: This library has been tested with Arduino Uno, Due and Mega. The example can be used without any change to these boards. 
 Other boards require you to modify the interrupt handler (minor task).
