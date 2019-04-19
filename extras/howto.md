@@ -58,7 +58,7 @@ The 4 signals are available one of two connectors:
 ### Primers
 Connect the provided 5-wire cable as follows:     
 
-<img src="res/tapconnect.png" alt="Tap connectors" style="max-width: 300px; border: 1px solid gray;">
+<img src="res/tapconnect.png" alt="Tap connectors" style="max-width: 150px; border: 1px solid gray;">
 
 The pinout is as follows: 
 
@@ -95,12 +95,12 @@ So for example, with Arduino Uno, only pins 2 and 3 can be used for CLK.
 
 Insert a 1 Kohm (2200 ohm) resistor between the TapNLink and Arduino for  the Clock and IO signals. This resistor  limits the current without degrading the signals too much. Applying  a 5V 'push-pull' output directly to  TapNLink inputs could damage the  TapNLink processor.     
 
-<img src="res/Arduino_UNO.JPG" alt="Arduino UNO overview" style="max-width: 300px; border: 1px solid gray;">
+<img src="res/Arduino_UNO.JPG" alt="Arduino UNO overview" style="max-width: 150px; border: 1px solid gray;">
 
 
 The schematic below shows the connection between Arduino-Uno and TapNLink:
 
- <img src="res/Arduino-to-Tap.png" alt="Wire connection to TapNLink" style="max-width: 300px; border: 1px solid gray;">
+ <img src="res/Arduino-to-Tap.png" alt="Wire connection to TapNLink" style="max-width: 250px; border: 1px solid gray;">
 
 #### IO signal
 IO signal can be connected to any digital I/O. 
@@ -112,7 +112,7 @@ With Arduino Uno, only pins 2 and 3 can be used for CLK (see [summary](##arduino
 In our example, CLK is connected to pin 3 for the Arduino UNO board and IO (data) is connected to pin 5. This can be modified directly when declaring your tap (see the example): 
 `Tap  myTap.Init(3,5); // clk = 3 and data = 5`
 
-<img src="res/UNO_Signals.JPG" alt="IO(blue) and CLK(pink) connection with UNO" style="max-width: 300px; border: 1px solid gray;">
+<img src="res/UNO_Signals.JPG" alt="IO(blue) and CLK(pink) connection with UNO" style="max-width: 150px; border: 1px solid gray;">
 
 
 ### Connect to an Arduino DUE and other Cortex-M boards
