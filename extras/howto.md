@@ -199,7 +199,7 @@ The tree should look like:
                 projectN/
                         projectN.ino
                 libraries/
-                        tap/
+                        ArdTap/
                                 examples/
                                         tapdemo.ino
                                 src/
