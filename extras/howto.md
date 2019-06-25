@@ -232,16 +232,24 @@ In IoTize Studio:
 1. Create a new project in the *{sketchbook_folder}\TapNLink* directory.
 2. Specify the elf file of your Arduino project (previously compiled) in the wizard. 
 3. Change in IOTZ Explorer pane:
-   - 'IoTized Application | Target | Target protocol' => S3P
-   - 'IoTized Application | Target | S3P configuration' => S3P mode = Indexed and Delay = 1ms
+   - 'IoTized Application | Target | Target protocol' => **S3P**
+   - 'IoTized Application | Target | S3P configuration' => S3P mode = **Indexed** and **Delay = 1ms**
+   Do not try to use the *SWD emulation* mode that is not supported by the Arduino library.
 4. Configure IoTized Application | Studio parameters. Refer to the IoTize Documentation Center ( [Getting Started with TapNLink](http://docs.iotize.com/GettingStarted/TapNLink/) and [IoTize Studio manual](http://docs.iotize.com/UserManuals/IotizeStudio/)).
 
         
 
 #### Add variables
-The list of available symbols (read from your *elf* file) is available in the 'Resource View' pane. You can drag and drop them to the default bundle and they will appear on the generated web page.  
+The list of available symbols (read from your *elf* file) is available in the 'Resource View' pane. You can drag and drop them to the default bundle and they will appear on the generated web page.
+Note that only **global** are manageable by IoTize Studio. Moreover, some global variables could be optimized by your compiler and then not visible. To force their visibility, add the *volatile* attribute: 
+   volatile int my_var;  
 
 ## Modify your existing Arduino file (.ino)
+
+To install the library, open your Arduino IDE:
+1. Launch the library manager (menu *Tools* | *Manage Libraries*).
+2. In the 'search' field, type: *ArdTap*. The only library proposed would be ArdTap by IoTize. 
+3. Click on the 'Install' link.
 
 Once the Tap library is installed:
 1. Include it in your project (e.g. add `#include "tap.h"` at the top of your *.ino* file). This is done automatically by executing from Arduino IDE menu: Sketch | Include library | Tap
