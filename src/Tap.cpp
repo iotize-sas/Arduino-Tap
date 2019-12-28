@@ -17,8 +17,8 @@
 *******************************************************************************/
 
 /* Includes (manufacturer specific) ------------------------------------------*/
-#include "arduino.h"            /*!< general declarations     */
-#include "tap.h"                /*!< general declarations     */
+#include "Arduino.h"            /*!< general declarations     */
+#include "Tap.h"                /*!< general declarations     */
 #include "..\..\..\TapNLink\S3P_conf.h"
 
 
