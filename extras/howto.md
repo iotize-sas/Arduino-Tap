@@ -93,7 +93,7 @@ So for example, with Arduino Uno, only pins 2 and 3 can be used for CLK.
 
 **Do not** connect the Tap to the 5V power!
 
-Insert a 1 Kohm (2200 ohm) resistor between the TapNLink and Arduino for  the Clock and IO signals. This resistor  limits the current without degrading the signals too much. Applying  a 5V 'push-pull' output directly to  TapNLink inputs could damage the  TapNLink processor.     
+Insert a 1 Kohm (1000 ohm) resistor between the TapNLink and Arduino for  the Clock and IO signals. This resistor  limits the current without degrading the signals too much. Applying  a 5V 'push-pull' output directly to  TapNLink inputs could damage the  TapNLink processor.     
 
 <img src="res/Arduino_UNO.JPG" alt="Arduino UNO overview" style="max-width: 150px; border: 1px solid gray;">
 
